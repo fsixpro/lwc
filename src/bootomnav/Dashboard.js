@@ -12,33 +12,6 @@ import Video from 'react-native-video';
 import {} from 'react-native-gesture-handler';
 
 const DashBoard = ({navigation}) => {
-  const [videoList, setVideoList] = useState([
-    {
-      title: 'first video',
-      videoUri:
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      key: '1',
-    },
-    {
-      title: 'second video',
-      videoUri:
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      key: '2',
-    },
-    {
-      title: 'third video',
-      videoUri:
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      key: '3',
-    },
-    {
-      title: 'fourth video',
-      videoUri:
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-      key: '4',
-    },
-  ]);
-  const [videoIndex, setVideoIndex] = useState(0);
   return (
     <View style={{flex: 1}}>
       <View
@@ -71,10 +44,11 @@ const DashBoard = ({navigation}) => {
           marginBottom: 10,
           paddingLeft: 10,
         }}>
-        Hello, Bro XYZoe
+        Hello, Welcome
       </Text>
       <View
         style={{
+          height: 30,
           flex: 1,
           marginLeft: 10,
           marginRight: 10,
@@ -84,30 +58,22 @@ const DashBoard = ({navigation}) => {
         <Video
           controls={true}
           source={{
-            uri: videoList[videoIndex].videoUri,
+            uri:
+              'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           }}
           onLoad={() => console.log('loading...')}
           onError={(err) => console.log(err.error)}
-          style={{flex: 1}}
+          style={{flex: 0.5}}
           fullscreen={true}
         />
       </View>
-
-      <FlatList
-        style={{flex: 0.5}}
-        data={videoList}
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={() => setVideoIndex(item.key - 1)}>
-            <Text style={styles.text}>{item.title}</Text>
-          </TouchableOpacity>
-        )}
-      />
-      <TouchableOpacity
+      {/*   <TouchableOpacity
         onPress={() => {
           navigation.pop();
         }}>
         <Text style={{fontSize: 25, left: 10, bottom: 10}}>Logout</Text>
       </TouchableOpacity>
+      */}
     </View>
   );
 };
