@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,9 +9,24 @@ import {
   Image,
 } from 'react-native';
 import Video from 'react-native-video';
-import {} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const DashBoard = ({navigation}) => {
+const DashBoard = ({route, navigation}) => {
+  const [username, setUsername] = useState('');
+  useEffect(() => {
+    async function getData() {
+      try {
+        const value = await AsyncStorage.getItem('username');
+        if (value !== null) {
+          setUsername(value);
+        }
+      } catch (e) {
+        // error reading value
+      }
+    }
+    getData();
+  }, []);
+
   return (
     <View style={{flex: 1}}>
       <View
@@ -44,7 +59,7 @@ const DashBoard = ({navigation}) => {
           marginBottom: 10,
           paddingLeft: 10,
         }}>
-        Hello, Welcome
+        Hello, {username}
       </Text>
       <View
         style={{
@@ -61,7 +76,7 @@ const DashBoard = ({navigation}) => {
             uri:
               'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           }}
-          onLoad={() => console.log('loading...')}
+          paused={true}
           onError={(err) => console.log(err.error)}
           style={{flex: 0.5}}
           fullscreen={true}
@@ -87,4 +102,5 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
+
 export default DashBoard;

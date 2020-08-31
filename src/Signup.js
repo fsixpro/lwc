@@ -9,16 +9,19 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from '@react-native-community/async-storage';
 import {Picker} from '@react-native-community/picker';
-import {connect} from 'react-redux';
-import {register} from './actions/auth';
+import Apicall from './network/ApiCall';
+const apicall = new Apicall();
 
-const Signup = ({navigation, register}) => {
+const Signup = ({navigation}) => {
   const [formInput, setFormInput] = useState({
     fullName: '',
     email: '',
     password: '',
   });
+  const [spinToggle, setSpinToggle] = useState(false);
   const [zone, setZone] = useState('');
   const [church, setChurch] = useState('');
   const [role, setRole] = useState('');
@@ -27,15 +30,16 @@ const Signup = ({navigation, register}) => {
   const onChangeHandler = (text) => {
     setFormInput({...formInput, ...text});
   };
-  const registerHandler = () => {
+  const registerHandler = async () => {
     const param = {
       name: fullName,
       email: email,
       password: password,
-      roleId: role,
+      roleId: 2,
       church: church,
       zchurch: zone,
       title: title,
+      mobile: '080',
     };
     if (fullName == '' || email == '' || password == '') {
       return Alert.alert('error', 'please fill in all fields');
@@ -52,11 +56,39 @@ const Signup = ({navigation, register}) => {
     if (title == '') {
       return Alert.alert('error', 'please choose a title');
     }
-    console.log(JSON.stringify(param));
-    register(param);
+    //   else {
+    //     try {
+    //       setSpinToggle(true);
+    //       const res = await apicall.register(param);
+    //       setSpinToggle(false);
+    //       if (res.status == 200) {
+    //         setSpinToggle(false);
+    //         console.log(res.data);
+    //         if (res.data.status == false) {
+    //           console.log(res.data.errors);
+    //           Alert.alert(res.data.errors[0]);
+    //         } else {
+    //           await AsyncStorage.setItem('username', res.data.data.name);
+    //           Alert.alert('Succes', 'registration successful');
+    //           navigation.navigate('bottomnav');
+    //         }
+    //       } else {
+    //         setSpinToggle(false);
+    //         Alert.alert('error', res.data.message);
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
   };
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={spinToggle}
+        size="large"
+        animation="slide"
+        //color="#f85c5f"
+      />
       <Image
         style={styles.logo}
         source={require('../assets/cgi_logo_splash-screen.png')}
@@ -213,4 +245,4 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
 });
-export default connect(null, {register})(Signup);
+export default Signup;

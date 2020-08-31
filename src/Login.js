@@ -8,30 +8,49 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-
-const Login = ({navigation}) => {
+import Spinner from 'react-native-loading-spinner-overlay';
+import Apicall from './network/ApiCall';
+const apicall = new Apicall();
+import AsyncStorage from '@react-native-community/async-storage';
+const Login = ({navigation, signin, user}) => {
   const [formInput, setFormInput] = useState({
     email: '',
     password: '',
   });
   const {email, password} = formInput;
+  const [spinToggle, setSpinToggle] = useState(false);
   const onChangeHandler = (text) => {
     setFormInput({...formInput, ...text});
   };
-  const loginHandler = () => {
+  const loginHandler = async () => {
     if (email == '' || password == '') {
-      Alert.alert('Error', 'input email and password');
-    } else if (
-      (email == 'admin' && password == 'admin') ||
-      (email == 'Admin' && password == 'admin')
-    ) {
-      navigation.navigate('bottomnav');
+      Alert.alert('Erro', 'input email and password');
     } else {
-      Alert.alert('Error', 'invalid email or password');
+      const param = {
+        email,
+        password,
+      };
+      setSpinToggle(true);
+      const res = await apicall.signin(param);
+      if (res.status == 200) {
+        setSpinToggle(false);
+        await AsyncStorage.setItem('username', res.data.data.name);
+        navigation.navigate('bottomnav');
+      } else {
+        setSpinToggle(false);
+        Alert.alert('error', res.data.message);
+      }
     }
   };
+
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={spinToggle}
+        size="large"
+        animation="slide"
+        //color="#f85c5f"
+      />
       <Image
         style={styles.logo}
         source={require('../assets/cgi_logo_splash-screen.png')}
@@ -114,5 +133,8 @@ const styles = StyleSheet.create({
 
     //textAlign: 'center',
   },
+});
+const mapStateToProps = (state) => ({
+  user: state.auth,
 });
 export default Login;
