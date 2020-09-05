@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -57,10 +58,143 @@ const DashBoard = ({route, navigation}) => {
           fontSize: 20,
           marginTop: 10,
           marginBottom: 10,
-          paddingLeft: 10,
+          paddingLeft: 20,
         }}>
         Hello, {username}
       </Text>
+      <Text style={{paddingLeft: 20}}>COMPLETED COURSES</Text>
+      <FlatList
+        data={[
+          {key: '1', value: 'text'},
+          {key: '2', value: 'text'},
+          {key: '3', value: 'text'},
+        ]}
+        horizontal={true}
+        renderItem={({item}) => (
+          <TouchableOpacity onPress={() => {}}>
+            <View
+              style={{
+                backgroundColor: '#fff',
+                //   borderColor: 'grey',
+                paddingLeft: 10,
+                // borderWidth: 5,
+                borderRadius: 20,
+                marginLeft: 15,
+                width: 225,
+                height: 250,
+                overflow: 'hidden',
+              }}>
+              <Image
+                style={{
+                  width: 255,
+                  height: 115,
+                  resizeMode: 'stretch',
+                  left: -10,
+                }}
+                source={require('../../assets/test.jpg')}
+              />
+              <Text
+                style={{
+                  color: '#005EE3',
+                  fontWeight: 'bold',
+                  fontSize: 10,
+                  marginTop: 5,
+                }}>
+                CGI LIAISON MANAGERS TRA...
+              </Text>
+              <Text
+                style={{
+                  color: '#000',
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                  marginTop: 5,
+                }}>
+                Tier 1 Training
+              </Text>
+              <Text
+                style={{
+                  color: '#808080',
+
+                  fontSize: 13,
+                  marginTop: 5,
+                }}>
+                This is an online training for CGI Liaison Manager
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+
+      <Text
+        style={{
+          color: '#9b9c9e',
+          fontWeight: 'bold',
+          paddingLeft: 20,
+          top: -10,
+        }}>
+        Downloaded Tools
+      </Text>
+      <FlatList
+        data={[
+          {
+            key: '1',
+            icon: 'file-alt',
+            buttonColor: '#005EE3',
+            buttonText: 'FREE',
+            format: 'DOCX | ',
+            price: '$10.00',
+          },
+
+          {
+            key: '3',
+            icon: 'file-pdf',
+            buttonColor: '#9b9c9e',
+            buttonText: 'N/A',
+            format: 'PDF | ',
+            price: '$0.00',
+          },
+        ]}
+        renderItem={({item}) => (
+          <View
+            style={{
+              width: '95%',
+              marginBottom: 10,
+              borderRadius: 40,
+              flexDirection: 'row',
+              backgroundColor: '#fff',
+              height: 65,
+              alignItems: 'center',
+              paddingLeft: 15,
+              marginHorizontal: 10,
+            }}>
+            <Icons name={item.icon} size={20} color="#9b9c9e" />
+            <View style={{paddingLeft: 12}}>
+              <Text>{'Know Your Cells (KYC)'}</Text>
+              <Text style={{color: '#9b9c9e'}}>
+                {item.format}
+                <Text style={{color: '#005EE3'}}>{item.price}</Text>
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => {}}>
+              <Text
+                style={{
+                  backgroundColor: item.buttonColor,
+                  color: '#fff',
+                  width: 75,
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                  borderRadius: 40,
+                  height: 40,
+                  marginLeft: 25,
+                }}>
+                {item.buttonText}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+
+      {/*  
       <View
         style={{
           height: 30,
