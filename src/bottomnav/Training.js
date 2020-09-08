@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
+import AppColor from '../modules/AppColor';
 const Training = () => {
   return (
     <View>
       <View
         style={{
           flexDirection: 'row',
-          backgroundColor: '#005EE3',
+          backgroundColor: AppColor.PRIMARY_COLOR,
           height: 80,
         }}>
         <Image

@@ -11,6 +11,7 @@ import {
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
+import AppColor from '../modules/AppColor';
 
 const DashBoard = ({route, navigation}) => {
   const [username, setUsername] = useState('');
@@ -33,7 +34,7 @@ const DashBoard = ({route, navigation}) => {
       <View
         style={{
           flexDirection: 'row',
-          backgroundColor: '#005EE3',
+          backgroundColor: AppColor.PRIMARY_COLOR,
           height: 80,
         }}>
         <Image
@@ -95,7 +96,7 @@ const DashBoard = ({route, navigation}) => {
               />
               <Text
                 style={{
-                  color: '#005EE3',
+                  color: AppColor.PRIMARY_COLOR,
                   fontWeight: 'bold',
                   fontSize: 10,
                   marginTop: 5,
@@ -139,7 +140,7 @@ const DashBoard = ({route, navigation}) => {
           {
             key: '1',
             icon: 'file-alt',
-            buttonColor: '#005EE3',
+            buttonColor: AppColor.PRIMARY_COLOR,
             buttonText: 'FREE',
             format: 'DOCX | ',
             price: '$10.00',
@@ -172,7 +173,9 @@ const DashBoard = ({route, navigation}) => {
               <Text>{'Know Your Cells (KYC)'}</Text>
               <Text style={{color: '#9b9c9e'}}>
                 {item.format}
-                <Text style={{color: '#005EE3'}}>{item.price}</Text>
+                <Text style={{color: AppColor.PRIMARY_COLOR}}>
+                  {item.price}
+                </Text>
               </Text>
             </View>
             <TouchableOpacity onPress={() => {}}>
@@ -230,7 +233,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     marginTop: 24,
-    backgroundColor: '#005EE3',
+    backgroundColor: AppColor.PRIMARY_COLOR,
     width: '60%',
     paddingLeft: 20,
     color: '#fff',

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
+import AppColor from './modules/AppColor';
 
 const Splash = ({navigation}) => {
   setTimeout(() => {
@@ -17,7 +18,7 @@ const Splash = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#005EE3',
+    backgroundColor: AppColor.PRIMARY_COLOR,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

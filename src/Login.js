@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import AppColor from './modules/AppColor';
 import Apicall from './network/ApiCall';
 const apicall = new Apicall();
 import AsyncStorage from '@react-native-community/async-storage';
@@ -58,6 +59,7 @@ const Login = ({navigation, signin, user}) => {
       <TextInput
         value={email}
         placeholder="Email"
+        keyboardType="email-address"
         placeholderTextColor="white"
         style={styles.formInput}
         onChangeText={(text) => {
@@ -92,7 +94,7 @@ const Login = ({navigation, signin, user}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#005EE3',
+    backgroundColor: AppColor.PRIMARY_COLOR,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
   },
   login: {
     backgroundColor: 'white',
-    color: '#005EE3',
+    color: AppColor.PRIMARY_COLOR,
     height: 55,
     width: 300,
     alignItems: 'center',

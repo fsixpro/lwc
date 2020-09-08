@@ -13,6 +13,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Picker} from '@react-native-community/picker';
 import Apicall from './network/ApiCall';
+import AppColor from './modules/AppColor';
 const apicall = new Apicall();
 
 const Signup = ({navigation}) => {
@@ -192,7 +193,7 @@ const Signup = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#005EE3',
+    backgroundColor: AppColor.PRIMARY_COLOR,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
   },
   register: {
     backgroundColor: 'white',
-    color: '#005EE3',
+    color: AppColor.PRIMARY_COLOR,
     height: 45,
     width: 300,
     alignItems: 'center',
