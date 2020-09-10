@@ -9,32 +9,12 @@ import {
 } from 'react-native';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import AppColor from '../modules/AppColor';
+import Header from '../Header';
 const Tools = () => {
   return (
     <View>
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: AppColor.PRIMARY_COLOR,
-          height: 80,
-        }}>
-        <Image
-          resizeMode="center"
-          style={{height: 60, top: 8, right: 20}}
-          source={require('../../assets/cgi_logo_splash-screen.png')}
-        />
-        <Text
-          style={{
-            color: '#fff',
-            fontWeight: '700',
-            fontSize: 20,
-            right: 50,
-            top: 30,
-          }}>
-          Tools
-        </Text>
-      </View>
-      <Text>Simple Tools Church Growth</Text>
+      <Header title="Tools" />
+      <Text style={{margin: 15}}>Simple Tools Church Growth</Text>
       <FlatList
         data={[
           {
@@ -96,18 +76,20 @@ const Tools = () => {
         renderItem={({item}) => (
           <View
             style={{
+              flex: 1,
               width: '95%',
               marginBottom: 10,
               borderRadius: 40,
               flexDirection: 'row',
               backgroundColor: '#fff',
+              justifyContent: 'space-evenly',
               height: 65,
               alignItems: 'center',
-              paddingLeft: 15,
+
               marginHorizontal: 10,
             }}>
             <Icons name={item.icon} size={20} color="#9b9c9e" />
-            <View style={{paddingLeft: 12}}>
+            <View>
               <Text>{item.title}</Text>
               <Text style={{color: '#9b9c9e'}}>
                 {item.format}

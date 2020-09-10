@@ -1,10 +1,29 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
 import AppColor from './modules/AppColor';
 
 const Splash = ({navigation}) => {
+  const [isLogged, setIsLogged] = useState(false);
+  useEffect(() => {
+    const log = async () => {
+      try {
+        const value = await AsyncStorage.getItem('isLogged');
+        if (value !== null) {
+          setIsLogged(value);
+        }
+      } catch (e) {
+        // error reading value
+      }
+    };
+    log();
+  }, []);
   setTimeout(() => {
-    navigation.navigate('login');
+    console.log(isLogged);
+    if (isLogged) {
+      navigation.navigate('bottomnav');
+    } else {
+      navigation.navigate('login');
+    }
   }, 2000);
   return (
     <View style={styles.container}>

@@ -31,15 +31,21 @@ const Login = ({navigation, signin, user}) => {
         email,
         password,
       };
-      setSpinToggle(true);
-      const res = await apicall.signin(param);
-      if (res.status == 200) {
-        setSpinToggle(false);
-        await AsyncStorage.setItem('username', res.data.data.name);
-        navigation.navigate('bottomnav');
-      } else {
-        setSpinToggle(false);
-        Alert.alert('error', res.data.message);
+      try {
+        setSpinToggle(true);
+        const res = await apicall.signin(param);
+        if (res.status == 200) {
+          setSpinToggle(false);
+          await AsyncStorage.setItem('username', res.data.data.name);
+          await AsyncStorage.setItem('email', res.data.data.email);
+          await AsyncStorage.setItem('isLogged', 'true');
+          navigation.navigate('bottomnav');
+        } else {
+          setSpinToggle(false);
+          Alert.alert('error', res.data.message);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };

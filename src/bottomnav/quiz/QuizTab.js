@@ -1,13 +1,13 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Videos from './Videos';
-import Webinars from './Webinars';
-import LiveSession from './LiveSession';
+
 import AppColor from '../../modules/AppColor';
+import TestHistory from './TestHistory';
+import TakeTest from './TakeTest';
 
 const Tab = createMaterialTopTabNavigator();
-const TrainingTab = () => {
+const QuizTab = () => {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
@@ -22,12 +22,11 @@ const TrainingTab = () => {
 
           style: {backgroundColor: AppColor.PRIMARY_COLOR},
         }}>
-        <Tab.Screen name="VIDEOS" component={Videos} />
-        <Tab.Screen name="WEBINNARS" component={Webinars} />
-        <Tab.Screen name="LIVE SESSION!" component={LiveSession} />
+        <Tab.Screen name="TEST HISORY" component={TestHistory} />
+        <Tab.Screen name="TAKE TEST" component={TakeTest} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
 
-export default TrainingTab;
+export default QuizTab;

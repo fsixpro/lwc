@@ -44,13 +44,17 @@ const Videos = () => {
           },
         ]}
         renderItem={({item}) => (
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => {
-                console.log('this is the title', item.title.length);
-              }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: AppColor.WHITE,
+              marginTop: 5,
+              borderBottomWidth: 10,
+              borderBottomColor: AppColor.WHITE,
+            }}>
+            <TouchableOpacity onPress={() => {}}>
               <Image
-                style={{width: 100, height: 100, marginTop: 10}}
+                style={{width: 100, height: 100}}
                 source={require('../../../assets/videoarrow.png')}
               />
             </TouchableOpacity>
