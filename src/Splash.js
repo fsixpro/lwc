@@ -1,30 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
 import AppColor from './modules/AppColor';
+import {connect} from 'react-redux';
 
-const Splash = ({navigation}) => {
-  const [isLogged, setIsLogged] = useState(false);
-  useEffect(() => {
-    const log = async () => {
-      try {
-        const value = await AsyncStorage.getItem('isLogged');
-        if (value !== null) {
-          setIsLogged(value);
-        }
-      } catch (e) {
-        // error reading value
-      }
-    };
-    log();
-  }, []);
-  setTimeout(() => {
-    console.log(isLogged);
-    if (isLogged) {
+const Splash = ({navigation, authUser}) => {
+  if (authUser.isLogged) {
+    setTimeout(() => {
       navigation.navigate('bottomnav');
-    } else {
+    }, 2000);
+  } else {
+    setTimeout(() => {
       navigation.navigate('login');
-    }
-  }, 2000);
+    }, 2000);
+  }
+
   return (
     <View style={styles.container}>
       <Image
@@ -35,6 +24,7 @@ const Splash = ({navigation}) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: AppColor.PRIMARY_COLOR,
@@ -52,4 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-export default Splash;
+const mapStateToProps = (state) => ({
+  authUser: state.auth,
+});
+export default connect(mapStateToProps, {})(Splash);

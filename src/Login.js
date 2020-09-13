@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,12 +8,22 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AppColor from './modules/AppColor';
-import Apicall from './network/ApiCall';
-const apicall = new Apicall();
+import {signin, logout} from './statemanagement/actions/authAction';
 import AsyncStorage from '@react-native-community/async-storage';
-const Login = ({navigation, signin, user}) => {
+import {connect} from 'react-redux';
+
+const Login = ({navigation, signin, user, logout}) => {
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setFormInput({email: '', password: ''});
+      };
+    }, []),
+  );
+
   const [formInput, setFormInput] = useState({
     email: '',
     password: '',
@@ -23,6 +33,7 @@ const Login = ({navigation, signin, user}) => {
   const onChangeHandler = (text) => {
     setFormInput({...formInput, ...text});
   };
+
   const loginHandler = async () => {
     if (email == '' || password == '') {
       Alert.alert('Erro', 'input email and password');
@@ -31,29 +42,20 @@ const Login = ({navigation, signin, user}) => {
         email,
         password,
       };
-      try {
-        setSpinToggle(true);
-        const res = await apicall.signin(param);
-        if (res.status == 200) {
-          setSpinToggle(false);
-          await AsyncStorage.setItem('username', res.data.data.name);
-          await AsyncStorage.setItem('email', res.data.data.email);
-          await AsyncStorage.setItem('isLogged', 'true');
-          navigation.navigate('bottomnav');
-        } else {
-          setSpinToggle(false);
-          Alert.alert('error', res.data.message);
-        }
-      } catch (error) {
-        console.log(error);
+      signin(param);
+      if (user.isLooged) {
+        navigation.navigate('bottomnav');
       }
     }
   };
-
+  // if (isLogged) {
+  //   console.log('islogged', isLogged);
+  //   navigation.navigate('bottomnav');
+  // }
   return (
     <View style={styles.container}>
       <Spinner
-        visible={spinToggle}
+        visible={user.loading}
         size="large"
         animation="slide"
         //color="#f85c5f"
@@ -145,4 +147,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.auth,
 });
-export default Login;
+export default connect(mapStateToProps, {signin, logout})(Login);

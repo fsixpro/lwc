@@ -1,0 +1,12 @@
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
+export const SIGNIN_FAIL = 'SIGNIN_FAIL';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const GET_COURSE = 'GET_COURSE';
+export const GET_TRAINING = 'GET_TRAINING';
+export const IS_LOGGED = 'IS_LOGGED';
+export const IS_NOT_LOGGED = 'IS_NOT_LOGGED';
+export const LOAD_USER = 'LOAD_USER';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const SET_LOADING = 'SET_LOADING';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';

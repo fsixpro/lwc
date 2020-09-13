@@ -1,48 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 import AppColor from '../../modules/AppColor';
-const Videos = () => {
+import {getTraining} from '../../statemanagement/actions/trainingAction';
+import {connect} from 'react-redux';
+const Videos = ({getTraining, training}) => {
+  useEffect(() => {
+    getTraining();
+  }, []);
+
+  useEffect(() => {
+    console.log(training);
+  });
   return (
     <View>
       <FlatList
-        data={[
-          {
-            key: '1',
-            title: 'Raising Leadership and multiplying your Church attendance',
-            pastor: 'Pastor Vale Odu-Thomas',
-            skill: 'Up-Skills |',
-            price: '$100.00',
-          },
-          {
-            key: '2',
-            title: 'Cell Leaders materclass - Raise yourself',
-            pastor: 'Pastor Vale Odu-Thomas',
-            skill: 'Remedial |',
-            price: 'Free',
-          },
-          {
-            key: '3',
-            title: 'Raising Leadership and multiplying your Church attendance',
-            pastor: 'Pastor Vale Odu-Thomas',
-
-            skill: 'Up-Skills |',
-            price: '$100.00',
-          },
-          {
-            key: '4',
-            title: 'Cell Leaders materclass - Raise yourself',
-            pastor: 'Pastor Vale Odu-Thomas',
-            skill: 'Remedial |',
-            price: 'Free',
-          },
-          {
-            key: '5',
-            title: 'Raising Leadership and multiplying your Church attendance',
-            pastor: 'Pastor Vale Odu-Thomas',
-            skill: 'Up-Skills |',
-            price: '$100.00',
-          },
-        ]}
+        keyExtractor={(item) => item.id.toString()}
+        data={training.training}
         renderItem={({item}) => (
           <View
             style={{
@@ -60,17 +33,20 @@ const Videos = () => {
             </TouchableOpacity>
             <View style={{top: 10, marginHorizontal: 7}}>
               <Text
+                ellipsizeMode="clip"
+                numberOfLines={2}
                 style={{
                   fontSize: 11,
                   fontWeight: 'bold',
+                  width: 230,
                 }}>
-                {item.title}
+                {item.topic}
               </Text>
               <Text style={{color: AppColor.SECONDARY_COLOR}}>
-                {item.pastor}
+                {item.facilitator}
               </Text>
               <Text style={{color: AppColor.SECONDARY_COLOR}}>
-                {`4:43 | ${item.skill} `}
+                {`${item.duration}:00 | ${item.skill} `}
                 <Text style={{color: AppColor.PRIMARY_COLOR}}>
                   {item.price}
                 </Text>
@@ -82,5 +58,7 @@ const Videos = () => {
     </View>
   );
 };
-
-export default Videos;
+const mapStateToProps = (state) => ({
+  training: state.training,
+});
+export default connect(mapStateToProps, {getTraining})(Videos);

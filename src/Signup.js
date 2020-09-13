@@ -149,20 +149,7 @@ const Signup = ({navigation}) => {
           <Picker.Item label="church 2" value="church2" />
         </Picker>
       </View>
-      <View style={styles.dropDownContainer}>
-        <Picker
-          selectedValue={role}
-          style={styles.dropDown}
-          itemStyle={{color: 'white', borderRadius: 40}}
-          onValueChange={(value) => {
-            setRole(value);
-          }}>
-          <Picker.Item label="Select Role" value="" />
-          <Picker.Item label="role 1" value={1} />
-          <Picker.Item label="role 2" value={2} />
-          <Picker.Item label="role 3" value={3} />
-        </Picker>
-      </View>
+
       <View style={styles.dropDownContainer}>
         <Picker
           selectedValue={title}
@@ -172,8 +159,11 @@ const Signup = ({navigation}) => {
             setTitle(value);
           }}>
           <Picker.Item label="Choose Your Title" value="" />
-          <Picker.Item label="title 1" value="title1" />
-          <Picker.Item label="title 2" value="title2" />
+          <Picker.Item label="Brother" value="Brother" />
+          <Picker.Item label="Sister" value="Sister" />
+          <Picker.Item label="Deacon" value="Deacon" />
+          <Picker.Item label="Deaconess" value="Deaconess" />
+          <Picker.Item label="Pastor" value="Pastor" />
         </Picker>
       </View>
 
@@ -197,6 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'scroll',
   },
 
   logo: {

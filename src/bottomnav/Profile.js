@@ -1,27 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import {connect} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import Header from '../Header';
-const Profile = ({navigation}) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  useEffect(() => {
-    async function getData() {
-      try {
-        const value = await AsyncStorage.getItem('username');
-        if (value !== null) {
-          setUsername(value);
-        }
-        const mail = await AsyncStorage.getItem('email');
-        if (value !== null) {
-          setEmail(mail);
-        }
-      } catch (e) {}
-    }
-    getData();
-  }, []);
+import {logout} from '../statemanagement/actions/authAction';
+
+const Profile = ({navigation, user, logout}) => {
   const logoutHandler = async () => {
     try {
       await AsyncStorage.clear();
@@ -30,6 +17,7 @@ const Profile = ({navigation}) => {
       // clear error
     }
   };
+
   return (
     <View style={{flex: 1}}>
       <Header title="Profile" />
@@ -47,7 +35,7 @@ const Profile = ({navigation}) => {
           source={require('../../assets/cgi_logo_splash-screen.png')}
         />
         <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 25}}>{username}</Text>
+          <Text style={{fontSize: 25}}>{user.user.name}</Text>
           <TouchableOpacity onPress={() => {}}>
             <Icons
               name="pencil-alt"
@@ -58,7 +46,7 @@ const Profile = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <Text style={{color: AppColor.SECONDARY_COLOR, fontSize: 11}}>
-          {`${email} | `}
+          {`${user.user.email} | `}
           <Text style={{color: AppColor.PRIMARY_COLOR, fontWeight: 'bold'}}>
             Cell Ministry Leader
           </Text>
@@ -122,5 +110,7 @@ const Profile = ({navigation}) => {
     </View>
   );
 };
-
-export default Profile;
+const mapStateToProps = (state) => ({
+  user: state.auth,
+});
+export default connect(mapStateToProps, {logout})(Profile);

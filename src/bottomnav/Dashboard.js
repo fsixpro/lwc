@@ -8,27 +8,36 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import Header from '../Header';
+import {getCourse} from '../statemanagement/actions/courseAction';
 
-const DashBoard = ({route, navigation}) => {
-  const [username, setUsername] = useState('');
-  useEffect(() => {
-    async function getData() {
-      try {
-        const value = await AsyncStorage.getItem('username');
-        if (value !== null) {
-          setUsername(value);
-        }
-      } catch (e) {
-        // error reading value
-      }
-    }
-    getData();
-  }, []);
+const DashBoard = ({getCourse, user, courses}) => {
+  const [name, setName] = useState('');
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setName(user.user.name);
+      return () => {
+        setName('');
+      };
+    }, []),
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getCourse();
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
 
   return (
     <View style={{flex: 1}}>
@@ -41,70 +50,122 @@ const DashBoard = ({route, navigation}) => {
           marginBottom: 10,
           paddingLeft: 20,
         }}>
-        Hello, {username}
+        Hello, {name}
       </Text>
       <Text style={{paddingLeft: 20}}>COMPLETED COURSES</Text>
-      <FlatList
-        data={[
-          {key: '1', value: 'text'},
-          {key: '2', value: 'text'},
-          {key: '3', value: 'text'},
-        ]}
-        horizontal={true}
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={() => {}}>
-            <View
+      {courses.loading ? (
+        <TouchableOpacity>
+          <View
+            style={{
+              backgroundColor: '#fff',
+              //   borderColor: 'grey',
+              paddingLeft: 10,
+              // borderWidth: 5,
+              borderRadius: 20,
+              marginLeft: 15,
+              width: 225,
+              height: 250,
+              overflow: 'hidden',
+            }}>
+            <Image
               style={{
-                backgroundColor: '#fff',
-                //   borderColor: 'grey',
-                paddingLeft: 10,
-                // borderWidth: 5,
-                borderRadius: 20,
-                marginLeft: 15,
-                width: 225,
-                height: 250,
-                overflow: 'hidden',
-              }}>
-              <Image
-                style={{
-                  width: 255,
-                  height: 115,
-                  resizeMode: 'stretch',
-                  left: -10,
-                }}
-                source={require('../../assets/test.jpg')}
-              />
-              <Text
-                style={{
-                  color: AppColor.PRIMARY_COLOR,
-                  fontWeight: 'bold',
-                  fontSize: 10,
-                  marginTop: 5,
-                }}>
-                CGI LIAISON MANAGERS TRA...
-              </Text>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                  marginTop: 5,
-                }}>
-                Tier 1 Training
-              </Text>
-              <Text
-                style={{
-                  color: '#808080',
+                width: 255,
+                height: 115,
+                resizeMode: 'stretch',
+                left: -10,
+              }}
+              // source={require('../../assets/test.jpg')}
+            />
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={{
+                color: AppColor.PRIMARY_COLOR,
+                fontWeight: 'bold',
+                fontSize: 10,
+                marginTop: 5,
+              }}></Text>
+            <Text
+              style={{
+                color: '#000',
+                fontWeight: 'bold',
+                fontSize: 16,
+                marginTop: 5,
+              }}></Text>
+            <Text
+              style={{
+                color: '#808080',
 
-                  fontSize: 13,
-                  marginTop: 5,
+                fontSize: 13,
+                marginTop: 5,
+              }}></Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <FlatList
+          keyExtractor={(item) => item.id.toString()}
+          data={courses.courses}
+          horizontal={true}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => {
+                console.log(item.id.toString());
+              }}>
+              <View
+                style={{
+                  backgroundColor: '#fff',
+                  //   borderColor: 'grey',
+                  paddingLeft: 10,
+                  // borderWidth: 5,
+                  borderRadius: 20,
+                  marginLeft: 15,
+                  width: 225,
+                  height: 250,
+                  overflow: 'hidden',
                 }}>
-                This is an online training for CGI Liaison Manager
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+                <Image
+                  style={{
+                    width: 255,
+                    height: 115,
+                    resizeMode: 'stretch',
+                    left: -10,
+                  }}
+                  source={require('../../assets/test.jpg')}
+                />
+                <Text
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={{
+                    color: AppColor.PRIMARY_COLOR,
+                    fontWeight: 'bold',
+                    fontSize: 10,
+                    marginTop: 5,
+                  }}>
+                  {item.course_title}
+                </Text>
+                <Text
+                  style={{
+                    color: '#000',
+                    fontWeight: 'bold',
+                    fontSize: 16,
+                    marginTop: 5,
+                  }}>
+                  Tier 1 Training
+                </Text>
+                <Text
+                  style={{
+                    color: '#808080',
+
+                    fontSize: 13,
+                    marginTop: 5,
+                  }}>
+                  {item.description}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      )}
 
       <Text
         style={{
@@ -169,7 +230,10 @@ const DashBoard = ({route, navigation}) => {
                 </Text>
               </Text>
             </View>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                console.log(item.key);
+              }}>
               <Text
                 style={{
                   backgroundColor: item.buttonColor,
@@ -231,5 +295,8 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
-
-export default DashBoard;
+const mapStateToProps = (state) => ({
+  user: state.auth,
+  courses: state.courses,
+});
+export default connect(mapStateToProps, {getCourse})(DashBoard);
