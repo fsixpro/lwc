@@ -23,6 +23,7 @@ export default function (state = initialState, action) {
     case REGISTER_SUCCESS:
       return {
         ...state,
+        user: payload,
         isLogged: true,
         loading: false,
       };

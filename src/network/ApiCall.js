@@ -89,6 +89,15 @@ export default class Apicall {
     }
   }
 
+  async getTools() {
+    try {
+      const res = await this.AxiosInstance1().get('stcg');
+      return res;
+    } catch (error) {
+      console.log('getTools api error', error);
+    }
+  }
+
   async loadUser() {
     try {
       const res = await this.AxiosInstance1().post('user/profile');

@@ -8,9 +8,6 @@ const Videos = ({getTraining, training}) => {
     getTraining();
   }, []);
 
-  useEffect(() => {
-    console.log(training);
-  });
   return (
     <View>
       <FlatList

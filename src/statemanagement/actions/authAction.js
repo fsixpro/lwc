@@ -19,7 +19,7 @@ export const signin = (param) => async (dispatch) => {
     if (res.status == 200) {
       if (res.data.status == true) {
         await AsyncStorage.setItem('token', res.data.access_token);
-        dispatch({type: SIGNIN_SUCCESS, payload: res.data.access_token});
+        dispatch({type: SIGNIN_SUCCESS, payload: res.data.data});
         dispatch(loadUser());
       } else {
         if (res.data.message == 'Invalid UserName or Password') {

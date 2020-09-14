@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef} from 'react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -23,7 +23,11 @@ const Login = ({navigation, signin, user, logout}) => {
       };
     }, []),
   );
-
+  useEffect(() => {
+    if (user.isLogged) {
+      navigation.navigate('bottomnav');
+    }
+  }, [user]);
   const [formInput, setFormInput] = useState({
     email: '',
     password: '',
@@ -43,9 +47,9 @@ const Login = ({navigation, signin, user, logout}) => {
         password,
       };
       signin(param);
-      if (user.isLooged) {
-        navigation.navigate('bottomnav');
-      }
+      // if (user.isLogged) {
+      //   navigation.navigate('bottomnav');
+      // }
     }
   };
   // if (isLogged) {

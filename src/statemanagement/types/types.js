@@ -5,6 +5,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const GET_COURSE = 'GET_COURSE';
 export const GET_CHURCHES = 'GET_CHURCHES';
 export const GET_ZONES = 'GET_ZONES';
+export const GET_TOOLS = 'GET_TOOLS';
 export const GET_TRAINING = 'GET_TRAINING';
 export const IS_LOGGED = 'IS_LOGGED';
 export const IS_NOT_LOGGED = 'IS_NOT_LOGGED';

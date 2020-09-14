@@ -1,123 +1,84 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  StatusBar,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import AppColor from '../modules/AppColor';
 import Header from '../Header';
-const Tools = () => {
+import {getTools} from '../statemanagement/actions/toolsAction';
+
+const Tools = ({getTools, tools}) => {
+  useEffect(() => {
+    getTools();
+  }, []);
+
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Header title="Tools" />
       <Text style={{margin: 15}}>Simple Tools Church Growth</Text>
-      <FlatList
-        data={[
-          {
-            key: '1',
-            icon: 'file-alt',
-            buttonColor: AppColor.PRIMARY_COLOR,
-            buttonText: 'FREE',
-            format: 'DOCX | ',
-            price: '$0.00',
-            title: 'Know Your Cells (KYC)',
-          },
-
-          {
-            key: '2',
-            icon: 'file-pdf',
-            buttonColor: '#9b9c9e',
-            buttonText: 'N/A',
-            format: 'PDF | ',
-            price: '$10.00',
-            title: 'Join The Chariot Worship',
-          },
-          {
-            key: '3',
-            icon: 'file-pdf',
-            buttonColor: '#9b9c9e',
-            buttonText: 'N/A',
-            format: 'PDF | ',
-            price: '$10.00',
-            title: 'Post Program Consolid...',
-          },
-          {
-            key: '4',
-            icon: 'file-pdf',
-            buttonColor: '#9b9c9e',
-            buttonText: 'N/A',
-            format: 'PDF | ',
-            price: '$0.00',
-            title: '3 in 1 Church invitation...',
-          },
-          {
-            key: '5',
-            icon: 'file-pdf',
-            buttonColor: '#9b9c9e',
-            buttonText: 'N/A',
-            format: 'PDF | ',
-            price: '$10.00',
-            title: 'Know Your Cells (KYC)',
-          },
-          {
-            key: '6',
-            icon: 'file-pdf',
-            buttonColor: '#9b9c9e',
-            buttonText: 'N/A',
-            format: 'PDF | ',
-            price: '$0.00',
-            title: 'Know Your Cells (KYC)',
-          },
-        ]}
-        renderItem={({item}) => (
-          <View
-            style={{
-              flex: 1,
-              width: '95%',
-              marginBottom: 10,
-              borderRadius: 40,
-              flexDirection: 'row',
-              backgroundColor: '#fff',
-              justifyContent: 'space-evenly',
-              height: 65,
-              alignItems: 'center',
-
-              marginHorizontal: 10,
-            }}>
-            <Icons name={item.icon} size={20} color="#9b9c9e" />
-            <View>
-              <Text>{item.title}</Text>
-              <Text style={{color: '#9b9c9e'}}>
-                {item.format}
-                <Text style={{color: AppColor.PRIMARY_COLOR}}>
-                  {item.price}
-                </Text>
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => {}}>
-              <Text
+      <View style={{flex: 1}}>
+        {tools !== null && (
+          <FlatList
+            keyExtractor={(item) => item.sid.toString()}
+            data={tools}
+            renderItem={({item}) => (
+              <View
                 style={{
-                  backgroundColor: item.buttonColor,
-                  color: '#fff',
-                  width: 75,
-                  textAlign: 'center',
-                  textAlignVertical: 'center',
-                  borderRadius: 40,
-                  height: 40,
-                  marginLeft: 25,
+                  //  flex: 1,
+                  width: '95%',
+                  marginTop: 10,
+                  borderRadius: 20,
+                  flexDirection: 'row',
+                  backgroundColor: AppColor.WHITE,
+                  justifyContent: 'space-evenly',
+                  height: 65,
+                  alignItems: 'center',
+                  marginHorizontal: 10,
                 }}>
-                {item.buttonText}
-              </Text>
-            </TouchableOpacity>
-          </View>
+                <Icons
+                  name={`file-${item.stcg_format.toLowerCase()}`}
+                  size={25}
+                  color="#9b9c9e"
+                />
+                <View>
+                  <Text style={{width: 170, fontSize: 13}} numberOfLines={2}>
+                    {item.stcg_desc}
+                  </Text>
+                  <Text style={{color: '#9b9c9e'}}>
+                    {`${item.stcg_format} | `}
+                    <Text style={{color: AppColor.PRIMARY_COLOR}}>
+                      {item.stcg_price}
+                    </Text>
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={item.stcg_price == '0.00' ? () => {} : null}>
+                  <Text
+                    style={{
+                      backgroundColor:
+                        item.stcg_price == '0.00'
+                          ? AppColor.PRIMARY_COLOR
+                          : AppColor.SECONDARY_COLOR,
+                      color: '#fff',
+                      width: 75,
+                      textAlign: 'center',
+                      textAlignVertical: 'center',
+                      borderRadius: 40,
+                      height: 40,
+                      marginLeft: 25,
+                    }}>
+                    {item.stcg_price == '0.00' ? 'FREE' : 'N/A'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
         )}
-      />
+      </View>
     </View>
   );
 };
-
-export default Tools;
+const mapStateToProps = (state) => ({
+  tools: state.tools.tools.data,
+});
+export default connect(mapStateToProps, {getTools})(Tools);

@@ -4,6 +4,7 @@ import courses from './courseReducer';
 import training from './trainingReducer';
 import zone from './zoneReducer';
 import church from './churchReducer';
+import tools from './toolsReducer';
 
 const rootReducer = combineReducers({
   auth,
@@ -11,5 +12,6 @@ const rootReducer = combineReducers({
   training,
   zone,
   church,
+  tools,
 });
 export default rootReducer;
