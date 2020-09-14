@@ -13,7 +13,6 @@ const initialState = {
   user: null,
   isLogged: false,
   loading: false,
-  msg: null,
 };
 
 export default function (state = initialState, action) {
@@ -21,18 +20,18 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case SIGNIN_SUCCESS:
+    case REGISTER_SUCCESS:
       return {
         ...state,
         isLogged: true,
-        msg: null,
         loading: false,
       };
     case SIGNIN_FAIL:
+    case REGISTER_FAIL:
       return {
         ...state,
         isLogged: false,
         user: null,
-        msg: payload,
         loading: false,
       };
     case LOAD_USER:

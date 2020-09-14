@@ -22,9 +22,38 @@ export const signin = (param) => async (dispatch) => {
         dispatch({type: SIGNIN_SUCCESS, payload: res.data.access_token});
         dispatch(loadUser());
       } else {
-        Alert.alert('error', res.data.message);
-        dispatch({type: SIGNIN_FAIL, payload: res.data.message});
+        if (res.data.message == 'Invalid UserName or Password') {
+          dispatch({type: SIGNIN_FAIL});
+          Alert.alert('error', res.data.message);
+        } else if (res.data.message == 'Some error(s) occurred') {
+          dispatch({type: SIGNIN_FAIL});
+          Alert.alert('error', res.data.errors[0]);
+        }
       }
+    }
+  } catch (error) {
+    console.log('auth actin error', error);
+  }
+};
+
+export const register = (param) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await apiCall.register(param);
+    console.log('register action', res);
+    if (res.status == 200) {
+      if (res.data.status == true) {
+        await AsyncStorage.setItem('token', res.data.access_token);
+        dispatch({type: REGISTER_SUCCESS, payload: res.data.access_token});
+        dispatch(loadUser());
+      }
+    } else if (
+      res.data.message == 'Sorry your reqistration could not be completed'
+    ) {
+      dispatch({type: REGISTER_FAIL});
+      Alert.alert('error', res.data.errors[0]);
+    } else {
+      dispatch({type: REGISTER_FAIL});
     }
   } catch (error) {
     console.log('auth actin error', error);

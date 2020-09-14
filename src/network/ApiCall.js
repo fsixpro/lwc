@@ -44,18 +44,6 @@ export default class Apicall {
     return instance;
   }
 
-  async register(params) {
-    try {
-      const res = await this.AxiosInstance().post(
-        'register',
-        JSON.stringify(params),
-      );
-      return res;
-    } catch (error) {
-      console.log('error', error.response);
-    }
-  }
-
   async signin(params) {
     try {
       const res = await this.AxiosInstance().post(
@@ -66,6 +54,19 @@ export default class Apicall {
       return res;
     } catch (error) {
       console.log('signin error', error);
+    }
+  }
+
+  async register(params) {
+    try {
+      const res = await this.AxiosInstance().post(
+        'register',
+        JSON.stringify(params),
+      );
+
+      return res;
+    } catch (error) {
+      console.log('register api error', error.response);
     }
   }
 
@@ -97,10 +98,10 @@ export default class Apicall {
     }
   }
 
-  async getChurch() {
+  async getChurch(zoneid) {
     try {
       const res = await this.AxiosInstance().get(
-        'churches/details?zoneID=BLWZN200818CM9',
+        `zone/churches/details?zoneID=${'BLWZN200818CM9'}`,
       );
       return res;
     } catch (error) {
@@ -110,10 +111,10 @@ export default class Apicall {
 
   async getZone() {
     try {
-      const res = await this.AxiosInstance().get('zonalchurches/details');
+      const res = await this.AxiosInstance().get('all/zones/details');
       return res;
     } catch (error) {
-      console.log('getTraining api error', error);
+      console.log('getZone api error', error.response);
     }
   }
 }

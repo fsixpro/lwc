@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,41 +6,63 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   Alert,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from '@react-native-community/async-storage';
+import {useFocusEffect} from '@react-navigation/native';
+import {connect} from 'react-redux';
+import {getZone} from './statemanagement/actions/zoneAction';
+import {getChurch} from './statemanagement/actions/churchAction';
 import {Picker} from '@react-native-community/picker';
-import Apicall from './network/ApiCall';
 import AppColor from './modules/AppColor';
-const apicall = new Apicall();
+import {register} from './statemanagement/actions/authAction';
+const Signup = ({
+  navigation,
+  getZone,
+  zones,
+  getChurch,
+  churches,
+  register,
+  user,
+}) => {
+  const isInitialMount = useRef(true);
+  useFocusEffect(
+    useCallback(() => {
+      getZone();
+      return () => {};
+    }, []),
+  );
 
-const Signup = ({navigation}) => {
   const [formInput, setFormInput] = useState({
     fullName: '',
     email: '',
     password: '',
+    phone: '',
   });
-  const [spinToggle, setSpinToggle] = useState(false);
+
   const [zone, setZone] = useState('');
   const [church, setChurch] = useState('');
-  const [role, setRole] = useState('');
   const [title, setTitle] = useState('');
-  const {fullName, email, password} = formInput;
+  const {fullName, email, password, phone} = formInput;
   const onChangeHandler = (text) => {
     setFormInput({...formInput, ...text});
   };
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      getChurch(zone);
+    }
+  }, [zone]);
   const registerHandler = async () => {
     const param = {
       name: fullName,
       email: email,
       password: password,
-      roleId: 2,
       church: church,
       zchurch: zone,
       title: title,
-      mobile: '080',
+      mobile: phone,
     };
     if (fullName == '' || email == '' || password == '') {
       return Alert.alert('error', 'please fill in all fields');
@@ -51,41 +73,18 @@ const Signup = ({navigation}) => {
     if (church == '') {
       return Alert.alert('error', 'please select a church');
     }
-    if (role == '') {
-      return Alert.alert('error', 'please select a role');
-    }
     if (title == '') {
       return Alert.alert('error', 'please choose a title');
     }
-    //   else {
-    //     try {
-    //       setSpinToggle(true);
-    //       const res = await apicall.register(param);
-    //       setSpinToggle(false);
-    //       if (res.status == 200) {
-    //         setSpinToggle(false);
-    //         console.log(res.data);
-    //         if (res.data.status == false) {
-    //           console.log(res.data.errors);
-    //           Alert.alert(res.data.errors[0]);
-    //         } else {
-    //           await AsyncStorage.setItem('username', res.data.data.name);
-    //           Alert.alert('Succes', 'registration successful');
-    //           navigation.navigate('bottomnav');
-    //         }
-    //       } else {
-    //         setSpinToggle(false);
-    //         Alert.alert('error', res.data.message);
-    //       }
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   }
+    register(param);
+    if (user.isLooged) {
+      // navigation.navigate('bottomnav');
+    }
   };
   return (
     <View style={styles.container}>
       <Spinner
-        visible={spinToggle}
+        visible={user.loading}
         size="large"
         animation="slide"
         //color="#f85c5f"
@@ -108,6 +107,7 @@ const Signup = ({navigation}) => {
         placeholder="Email"
         placeholderTextColor="white"
         style={styles.formInput}
+        keyboardType={'email-address'}
         onChangeText={(text) => {
           onChangeHandler({email: text});
         }}
@@ -122,6 +122,16 @@ const Signup = ({navigation}) => {
           onChangeHandler({password: text});
         }}
       />
+      <TextInput
+        value={phone}
+        placeholder="phone"
+        placeholderTextColor="white"
+        style={styles.formInput}
+        keyboardType={'number-pad'}
+        onChangeText={(text) => {
+          onChangeHandler({phone: text});
+        }}
+      />
 
       <View style={styles.dropDownContainer}>
         <Picker
@@ -132,8 +142,15 @@ const Signup = ({navigation}) => {
             setZone(value);
           }}>
           <Picker.Item label="Select Zone" value="" />
-          <Picker.Item label="Zone 1" value="Zone1" />
-          <Picker.Item label="Zone 2" value="Zone2" />
+          {zones != null &&
+            zones.length > 1 &&
+            zones.map((zone, index) => (
+              <Picker.Item
+                key={index}
+                label={zone.description}
+                value={zone.zone_id}
+              />
+            ))}
         </Picker>
       </View>
       <View style={styles.dropDownContainer}>
@@ -145,8 +162,17 @@ const Signup = ({navigation}) => {
             setChurch(value);
           }}>
           <Picker.Item label="Select church" value="" />
-          <Picker.Item label="church 1" value="church2" />
-          <Picker.Item label="church 2" value="church2" />
+          {churches != null &&
+            churches.length > 1 &&
+            churches.map((church, index) => (
+              <Picker.Item
+                key={index}
+                label={church.church_desc}
+                value={church.cgroupID}
+              />
+            ))}
+          {/* <Picker.Item label="church 1" value="church2" />
+          <Picker.Item label="church 2" value="church2" /> */}
         </Picker>
       </View>
 
@@ -173,7 +199,7 @@ const Signup = ({navigation}) => {
       <View>
         <TouchableOpacity
           onPress={() => {
-            navigation.pop();
+            // navigation.goBack();
           }}>
           <Text style={styles.text}>Already have an Accont? Login</Text>
         </TouchableOpacity>
@@ -203,7 +229,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'white',
     color: 'white',
-    //  fontSize: 15,
   },
   dropDown: {
     color: 'white',
@@ -237,4 +262,10 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
 });
-export default Signup;
+
+const mapStateToProps = (state) => ({
+  zones: state.zone.zones,
+  churches: state.church.churches.data,
+  user: state.auth,
+});
+export default connect(mapStateToProps, {register, getZone, getChurch})(Signup);
