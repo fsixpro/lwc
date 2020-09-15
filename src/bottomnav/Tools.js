@@ -7,7 +7,7 @@ import AppColor from '../modules/AppColor';
 import Header from '../Header';
 import {getTools} from '../statemanagement/actions/toolsAction';
 
-const Tools = ({getTools, tools}) => {
+const ToolsHome = ({getTools, tools}) => {
   useEffect(() => {
     getTools();
   }, []);
@@ -81,4 +81,4 @@ const Tools = ({getTools, tools}) => {
 const mapStateToProps = (state) => ({
   tools: state.tools.tools.data,
 });
-export default connect(mapStateToProps, {getTools})(Tools);
+export default connect(mapStateToProps, {getTools})(ToolsHome);

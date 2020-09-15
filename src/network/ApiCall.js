@@ -126,4 +126,16 @@ export default class Apicall {
       console.log('getZone api error', error.response);
     }
   }
+
+  async getVideo(param) {
+    try {
+      const res = await this.AxiosInstance1().post(
+        'category/course/training/video',
+        param,
+      );
+      return res;
+    } catch (error) {
+      console.log('getVideo API error', error.response);
+    }
+  }
 }

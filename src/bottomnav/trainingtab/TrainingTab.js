@@ -19,7 +19,6 @@ const TrainingTab = () => {
             fontSize: 10.5,
             color: AppColor.WHITE,
           },
-
           style: {backgroundColor: AppColor.PRIMARY_COLOR},
         }}>
         <Tab.Screen name="VIDEOS" component={Videos} />

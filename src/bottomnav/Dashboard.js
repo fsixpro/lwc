@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
-import Video from 'react-native-video';
-import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import Header from '../Header';

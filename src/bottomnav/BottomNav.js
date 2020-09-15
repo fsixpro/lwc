@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Dashboard from './Dashboard';
@@ -8,11 +8,12 @@ import Tools from './Tools';
 import Training from './Training';
 import Quiz from './Quiz';
 import Profile from './Profile';
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 const BottomNav = () => {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
+        screenOptions={({route}) => ({})}
         shifting={false}
         activeColor="blue"
         inactiveColor="grey"
@@ -42,7 +43,7 @@ const BottomNav = () => {
           component={Tools}
         />
         <Tab.Screen
-          options={{
+          options={() => ({
             tabBarLabel: 'Training',
             tabBarIcon: ({tintColor, focused}) => (
               <Icon
@@ -51,7 +52,7 @@ const BottomNav = () => {
                 size={25}
               />
             ),
-          }}
+          })}
           name="Training"
           component={Training}
         />

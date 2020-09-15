@@ -13,3 +13,4 @@ export const LOAD_USER = 'LOAD_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const SET_LOADING = 'SET_LOADING';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const GET_VIDEO = 'GET_VIDEO';
