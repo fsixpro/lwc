@@ -75,10 +75,7 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
             data={courses.courses}
             horizontal={true}
             renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(item.id.toString());
-                }}>
+              <TouchableOpacity onPress={() => {}}>
                 <View
                   style={{
                     backgroundColor: '#fff',
@@ -203,36 +200,6 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
           />
         )}
       </View>
-
-      {/*  
-      <View
-        style={{
-          height: 30,
-          flex: 1,
-          marginLeft: 10,
-          marginRight: 10,
-          borderRadius: 10,
-          //borderWidth: 1,
-        }}>
-        <Video
-          controls={true}
-          source={{
-            uri:
-              'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-          }}
-          paused={true}
-          onError={(err) => console.log(err.error)}
-          style={{flex: 0.5}}
-          fullscreen={true}
-        />
-      </View>
-      {/*   <TouchableOpacity
-        onPress={() => {
-          navigation.pop();
-        }}>
-        <Text style={{fontSize: 25, left: 10, bottom: 10}}>Logout</Text>
-      </TouchableOpacity>
-      */}
     </View>
   );
 };
