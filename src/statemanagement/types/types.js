@@ -14,3 +14,6 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const SET_LOADING = 'SET_LOADING';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const GET_VIDEO = 'GET_VIDEO';
+export const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS';
+export const GET_COMMENTS_FAIL = 'GET_COMMENTS_FAIL';
+export const ADD_COMMENT = 'ADD_COMMENT';

@@ -138,4 +138,24 @@ export default class Apicall {
       console.log('getVideo API error', error.response);
     }
   }
+
+  async getVideoComment(param) {
+    try {
+      const res = await this.AxiosInstance1().post(
+        'training/video/comment',
+        param,
+      );
+      return res;
+    } catch (error) {
+      console.log('getVideoComment API error', error.response);
+    }
+  }
+  async addVideoComment(param) {
+    try {
+      const res = await this.AxiosInstance1().post('add/video/comments', param);
+      return res;
+    } catch (error) {
+      console.log('addVideoComment API error', error.response);
+    }
+  }
 }

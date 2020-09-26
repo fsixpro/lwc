@@ -6,15 +6,13 @@ import {connect} from 'react-redux';
 
 const Splash = ({navigation, authUser}) => {
   useEffect(() => {
-    if (authUser.isLogged) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (authUser.isLogged) {
         navigation.navigate('bottomnav');
-      }, 2000);
-    } else {
-      setTimeout(() => {
+      } else {
         navigation.navigate('login');
-      }, 2000);
-    }
+      }
+    }, 2000);
   }, []);
 
   return (

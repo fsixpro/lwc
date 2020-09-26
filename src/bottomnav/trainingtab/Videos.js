@@ -13,14 +13,15 @@ import {connect} from 'react-redux';
 import AppColor from '../../modules/AppColor';
 import VideoPlayerScreen from '../VideoPlayerScreen';
 import {getVideo} from '../../statemanagement/actions/videoAction';
-
-const Videos = ({navigation, getTraining, training, getVideo, video}) => {
+import {getVideoComment} from '../../statemanagement/actions/commentAction';
+const Videos = ({getTraining, training, getVideo, video, getVideoComment}) => {
   useEffect(() => {
     getTraining();
   }, []);
   const [modal, setModal] = useState(false);
   const videoHandler = (item) => {
     getVideo({train_ram: item.train_ram});
+    getVideoComment({training_id: item.train_ram});
     setModal(true);
   };
   const onBack = () => {
@@ -86,4 +87,8 @@ const mapStateToProps = (state) => ({
   training: state.training,
   video: state.video,
 });
-export default connect(mapStateToProps, {getTraining, getVideo})(Videos);
+export default connect(mapStateToProps, {
+  getTraining,
+  getVideo,
+  getVideoComment,
+})(Videos);

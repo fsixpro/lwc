@@ -6,6 +6,7 @@ import zone from './zoneReducer';
 import church from './churchReducer';
 import tools from './toolsReducer';
 import video from './videoReducer';
+import comments from './commentReducer';
 
 const rootReducer = combineReducers({
   auth,
@@ -15,5 +16,6 @@ const rootReducer = combineReducers({
   church,
   tools,
   video,
+  comments,
 });
 export default rootReducer;
