@@ -6,9 +6,14 @@ import {
   Keyboard,
   FlatList,
   TouchableOpacity,
+  Modal,
+  KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 import {connect} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import {
@@ -50,6 +55,9 @@ const VideoPlayerScreen = ({
     setKeyboardHeight(0);
   };
   const submitPostHandler = () => {
+    if (comment == '') {
+      return Alert.alert('Error', 'you can not post an empty comment');
+    }
     addVideoComment({
       comment_body: comment,
       training_id: VideoURI.train_ram,
@@ -68,122 +76,125 @@ const VideoPlayerScreen = ({
       style={{
         flex: 1,
         // marginBottom: keyboardHeight + inputHeight
-        bottom: keyboardHeight / 6,
+        // bottom: keyboardHeight / 6,
       }}>
-      <View
-        style={{
-          height: 300,
-          backgroundColor: 'red',
-        }}>
-        {/* <VideoPlayer
-          seekColor={AppColor.PRIMARY_COLOR}
-          disableVolume={true}
-          disableFullscreen={true}
-          onBack={onBack}
-          controls={true}
-          source={{
-            uri: VideoURI.video_file,
-          }}
-        /> */}
-      </View>
-
-      <View>
-        <Text style={{marginLeft: 10}}>{VideoURI.topic}</Text>
-        <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR}}>
-          {VideoURI.facilitator}
-        </Text>
-        <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR}}>
-          {'Category Remedial'}
-        </Text>
-        <Text
+      <KeyboardAwareScrollView style={{flex: 2}}>
+        <View
           style={{
-            marginLeft: 10,
-            color: AppColor.SECONDARY_COLOR,
-          }}>{`Synopsis \n${VideoURI.description}`}</Text>
-        <Text style={{marginLeft: 10}}>{'Comments (6)'}</Text>
+            height: 300,
+            // backgroundColor: 'red',
+          }}>
+          <VideoPlayer
+            seekColor={AppColor.PRIMARY_COLOR}
+            disableVolume={true}
+            disableFullscreen={true}
+            onBack={onBack}
+            controls={true}
+            source={{
+              uri: VideoURI.video_file,
+            }}
+          />
+        </View>
 
         <View>
-          <View
+          <Text style={{marginLeft: 10}}>{VideoURI.topic}</Text>
+          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR}}>
+            {VideoURI.facilitator}
+          </Text>
+          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR}}>
+            {'Category Remedial'}
+          </Text>
+          <Text
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderWidth: 3,
-              borderColor: AppColor.SECONDARY_COLOR,
-              marginVertical: 4,
-            }}>
-            <Icon
-              style={{marginHorizontal: 15}}
-              name="account-circle"
-              size={25}
-              color={AppColor.SECONDARY_COLOR}
-            />
+              marginLeft: 10,
+              color: AppColor.SECONDARY_COLOR,
+            }}>{`Synopsis \n${VideoURI.description}`}</Text>
+          <Text style={{marginLeft: 10}}>{'Comments (6)'}</Text>
 
-            <TextInput
-              multiline={true}
-              value={comment}
-              onChangeText={(text) => onChange(text)}
-              returnKeyType="send"
-              onFocus={() => setSendButton(true)}
-              style={{
-                width: '75%',
-              }}
-              placeholder="Add a comment"
-            />
-            {sendButton ? (
-              <TouchableOpacity onPress={submitPostHandler}>
-                <Icon
-                  // style={{marginHorizontal: 15}}
-                  name="send"
-                  size={35}
-                  color={AppColor.PRIMARY_COLOR}
-                />
-              </TouchableOpacity>
-            ) : (
-              <View></View>
-            )}
-          </View>
-        </View>
-      </View>
-
-      {comments.length < 1 ? (
-        <View>
-          <Text>No comment yet</Text>
-        </View>
-      ) : (
-        <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          data={comments}
-          renderItem={({item}) => (
+          <View>
             <View
               style={{
                 flexDirection: 'row',
-                paddingVertical: 10,
-                borderBottomWidth: 1,
-                borderBottomColor: AppColor.SECONDARY_COLOR,
+                alignItems: 'center',
+                borderWidth: 3,
+                borderColor: AppColor.SECONDARY_COLOR,
+                marginVertical: 4,
               }}>
               <Icon
-                style={{marginHorizontal: 10}}
+                style={{marginHorizontal: 15}}
                 name="account-circle"
-                size={40}
+                size={25}
                 color={AppColor.SECONDARY_COLOR}
               />
-              <View style={{marginHorizontal: 10, width: '80%'}}>
-                <Text style={{fontWeight: 'bold', color: AppColor.BLACK}}>
-                  {`${item.name} `}
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      color: AppColor.SECONDARY_COLOR,
-                    }}>
-                    {item.created_at}
-                  </Text>
-                </Text>
-                <Text>{item.comment_body}</Text>
-              </View>
+
+              <TextInput
+                multiline={true}
+                value={comment}
+                onChangeText={(text) => onChange(text)}
+                returnKeyType="send"
+                onFocus={() => setSendButton(true)}
+                style={{
+                  width: '75%',
+                }}
+                placeholder="Add a comment"
+              />
+              {sendButton ? (
+                <TouchableOpacity onPress={submitPostHandler}>
+                  <Icon
+                    // style={{marginHorizontal: 15}}
+                    name="send"
+                    size={35}
+                    color={AppColor.PRIMARY_COLOR}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <View></View>
+              )}
             </View>
-          )}
-        />
-      )}
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
+      <View style={{flex: 0.5}}>
+        {comments.length < 1 ? (
+          <View>
+            <Text>No comment yet</Text>
+          </View>
+        ) : (
+          <FlatList
+            keyExtractor={(item, index) => index.toString()}
+            data={comments}
+            renderItem={({item}) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  paddingVertical: 10,
+                  borderBottomWidth: 1,
+                  borderBottomColor: AppColor.SECONDARY_COLOR,
+                }}>
+                <Icon
+                  style={{marginHorizontal: 10}}
+                  name="account-circle"
+                  size={40}
+                  color={AppColor.SECONDARY_COLOR}
+                />
+                <View style={{marginHorizontal: 10, width: '80%'}}>
+                  <Text style={{fontWeight: 'bold', color: AppColor.BLACK}}>
+                    {`${item.name} `}
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        color: AppColor.SECONDARY_COLOR,
+                      }}>
+                      {item.created_at}
+                    </Text>
+                  </Text>
+                  <Text>{item.comment_body}</Text>
+                </View>
+              </View>
+            )}
+          />
+        )}
+      </View>
     </View>
   );
 };

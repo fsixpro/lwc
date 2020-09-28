@@ -7,9 +7,11 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useFocusEffect} from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
 import {getZone} from './statemanagement/actions/zoneAction';
 import {getChurch} from './statemanagement/actions/churchAction';
@@ -25,6 +27,23 @@ const Signup = ({
   register,
   user,
 }) => {
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setFormInput({
+          fullName: '',
+          email: '',
+          password: '',
+          phone: '',
+        });
+      };
+    }, []),
+  );
+  useEffect(() => {
+    if (user.isLogged) {
+      navigation.navigate('bottomnav');
+    }
+  }, [user]);
   const isInitialMount = useRef(true);
   useFocusEffect(
     useCallback(() => {
@@ -76,134 +95,133 @@ const Signup = ({
     if (title == '') {
       return Alert.alert('error', 'please choose a title');
     }
-    register(param);
-    if (user.isLooged) {
-      // navigation.navigate('bottomnav');
-    }
+    //register(param);
   };
   return (
     <View style={styles.container}>
-      <Spinner
-        visible={user.loading}
-        size="large"
-        animation="slide"
-        //color="#f85c5f"
-      />
-      <Image
-        style={styles.logo}
-        source={require('../assets/cgi_logo_splash-screen.png')}
-      />
-      <TextInput
-        value={fullName}
-        placeholder="Full Name"
-        placeholderTextColor="white"
-        style={styles.formInput}
-        onChangeText={(text) => {
-          onChangeHandler({fullName: text});
-        }}
-      />
-      <TextInput
-        value={email}
-        placeholder="Email"
-        placeholderTextColor="white"
-        style={styles.formInput}
-        keyboardType={'email-address'}
-        onChangeText={(text) => {
-          onChangeHandler({email: text});
-        }}
-      />
-      <TextInput
-        value={password}
-        placeholder="Password"
-        placeholderTextColor="white"
-        style={styles.formInput}
-        secureTextEntry={true}
-        onChangeText={(text) => {
-          onChangeHandler({password: text});
-        }}
-      />
-      <TextInput
-        value={phone}
-        placeholder="phone"
-        placeholderTextColor="white"
-        style={styles.formInput}
-        keyboardType={'number-pad'}
-        onChangeText={(text) => {
-          onChangeHandler({phone: text});
-        }}
-      />
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Spinner
+          visible={user.loading}
+          size="large"
+          animation="slide"
+          //color="#f85c5f"
+        />
+        <Image
+          style={styles.logo}
+          source={require('../assets/cgi_logo_splash-screen.png')}
+        />
+        <TextInput
+          value={fullName}
+          placeholder="Full Name"
+          placeholderTextColor="white"
+          style={styles.formInput}
+          onChangeText={(text) => {
+            onChangeHandler({fullName: text});
+          }}
+        />
+        <TextInput
+          value={email}
+          placeholder="Email"
+          placeholderTextColor="white"
+          style={styles.formInput}
+          keyboardType={'email-address'}
+          onChangeText={(text) => {
+            onChangeHandler({email: text});
+          }}
+        />
+        <TextInput
+          value={password}
+          placeholder="Password"
+          placeholderTextColor="white"
+          style={styles.formInput}
+          secureTextEntry={true}
+          onChangeText={(text) => {
+            onChangeHandler({password: text});
+          }}
+        />
+        <TextInput
+          value={phone}
+          placeholder="phone"
+          placeholderTextColor="white"
+          style={styles.formInput}
+          keyboardType={'number-pad'}
+          onChangeText={(text) => {
+            onChangeHandler({phone: text});
+          }}
+        />
 
-      <View style={styles.dropDownContainer}>
-        <Picker
-          selectedValue={zone}
-          style={styles.dropDown}
-          itemStyle={{color: 'white', borderRadius: 40}}
-          onValueChange={(value) => {
-            setZone(value);
-          }}>
-          <Picker.Item label="Select Zone" value="" />
-          {zones != null &&
-            zones.length > 1 &&
-            zones.map((zone, index) => (
-              <Picker.Item
-                key={index}
-                label={zone.description}
-                value={zone.zone_id}
-              />
-            ))}
-        </Picker>
-      </View>
-      <View style={styles.dropDownContainer}>
-        <Picker
-          selectedValue={church}
-          style={styles.dropDown}
-          itemStyle={{color: 'white', borderRadius: 40}}
-          onValueChange={(value) => {
-            setChurch(value);
-          }}>
-          <Picker.Item label="Select church" value="" />
-          {churches != null &&
-            churches.length > 1 &&
-            churches.map((church, index) => (
-              <Picker.Item
-                key={index}
-                label={church.church_desc}
-                value={church.cgroupID}
-              />
-            ))}
-          {/* <Picker.Item label="church 1" value="church2" />
+        <View style={styles.dropDownContainer}>
+          <Picker
+            selectedValue={zone}
+            style={styles.dropDown}
+            itemStyle={{color: 'white', borderRadius: 40}}
+            onValueChange={(value) => {
+              setZone(value);
+            }}>
+            <Picker.Item label="Select Zone" value="" />
+            {zones != null &&
+              zones.length > 1 &&
+              zones.map((zone, index) => (
+                <Picker.Item
+                  key={index}
+                  label={zone.description}
+                  value={zone.zone_id}
+                />
+              ))}
+          </Picker>
+        </View>
+        <View style={styles.dropDownContainer}>
+          <Picker
+            selectedValue={church}
+            style={styles.dropDown}
+            itemStyle={{color: 'white', borderRadius: 40}}
+            onValueChange={(value) => {
+              setChurch(value);
+            }}>
+            <Picker.Item label="Select church" value="" />
+            {churches != null &&
+              churches.length > 1 &&
+              churches.map((church, index) => (
+                <Picker.Item
+                  key={index}
+                  label={church.church_desc}
+                  value={church.cgroupID}
+                />
+              ))}
+            {/* <Picker.Item label="church 1" value="church2" />
           <Picker.Item label="church 2" value="church2" /> */}
-        </Picker>
-      </View>
+          </Picker>
+        </View>
 
-      <View style={styles.dropDownContainer}>
-        <Picker
-          selectedValue={title}
-          style={styles.dropDown}
-          itemStyle={{color: 'white', borderRadius: 40}}
-          onValueChange={(value) => {
-            setTitle(value);
-          }}>
-          <Picker.Item label="Choose Your Title" value="" />
-          <Picker.Item label="Brother" value="Brother" />
-          <Picker.Item label="Sister" value="Sister" />
-          <Picker.Item label="Deacon" value="Deacon" />
-          <Picker.Item label="Deaconess" value="Deaconess" />
-          <Picker.Item label="Pastor" value="Pastor" />
-        </Picker>
-      </View>
+        <View style={styles.dropDownContainer}>
+          <Picker
+            selectedValue={title}
+            style={styles.dropDown}
+            itemStyle={{color: 'white', borderRadius: 40}}
+            onValueChange={(value) => {
+              setTitle(value);
+            }}>
+            <Picker.Item label="Choose Your Title" value="" />
+            <Picker.Item label="Brother" value="Brother" />
+            <Picker.Item label="Sister" value="Sister" />
+            <Picker.Item label="Deacon" value="Deacon" />
+            <Picker.Item label="Deaconess" value="Deaconess" />
+            <Picker.Item label="Pastor" value="Pastor" />
+          </Picker>
+        </View>
 
-      <TouchableOpacity onPress={registerHandler}>
-        <Text style={styles.register}>Register</Text>
-      </TouchableOpacity>
-      <View>
-        <TouchableOpacity
-          onPress={() => {
-            // navigation.goBack();
-          }}>
-          <Text style={styles.text}>Already have an Accont? Login</Text>
+        <TouchableOpacity onPress={registerHandler}>
+          <Text style={styles.register}>Register</Text>
         </TouchableOpacity>
-      </View>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Text style={styles.text}>Already have an Accont? Login</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -213,7 +231,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'scroll',
+  },
+  scrollView: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   logo: {
