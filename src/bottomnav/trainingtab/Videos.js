@@ -60,9 +60,9 @@ const Videos = ({getTraining, training, getVideo, video, getVideoComment}) => {
                   ellipsizeMode="clip"
                   numberOfLines={2}
                   style={{
-                    fontSize: 11,
+                    fontSize: 17,
                     fontWeight: 'bold',
-                    width: 230,
+                    width: 300,
                   }}>
                   {item.topic}
                 </Text>

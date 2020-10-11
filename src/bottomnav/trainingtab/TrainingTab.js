@@ -16,7 +16,7 @@ const TrainingTab = () => {
             backgroundColor: AppColor.WHITE,
           },
           labelStyle: {
-            fontSize: 10.5,
+            fontSize: 17,
             color: AppColor.WHITE,
           },
           style: {backgroundColor: AppColor.PRIMARY_COLOR},

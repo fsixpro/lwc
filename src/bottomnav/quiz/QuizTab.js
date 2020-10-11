@@ -16,7 +16,7 @@ const QuizTab = () => {
             backgroundColor: AppColor.WHITE,
           },
           labelStyle: {
-            fontSize: 10.5,
+            fontSize:20,
             color: AppColor.WHITE,
           },
 

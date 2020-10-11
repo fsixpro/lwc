@@ -82,9 +82,9 @@ const VideoPlayerScreen = ({
         <View
           style={{
             height: 300,
-            // backgroundColor: 'red',
+             backgroundColor: 'coral',
           }}>
-          <VideoPlayer
+          {/* <VideoPlayer
             seekColor={AppColor.PRIMARY_COLOR}
             disableVolume={true}
             disableFullscreen={true}
@@ -93,23 +93,25 @@ const VideoPlayerScreen = ({
             source={{
               uri: VideoURI.video_file,
             }}
-          />
+          /> */}
         </View>
 
         <View>
-          <Text style={{marginLeft: 10}}>{VideoURI.topic}</Text>
-          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR}}>
+          <Text style={{marginLeft: 10,marginBottom:3,fontSize:16
+          }}>{VideoURI.topic}</Text>
+          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR,marginBottom:3}}>
             {VideoURI.facilitator}
           </Text>
-          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR}}>
+          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR,marginBottom:3}}>
             {'Category Remedial'}
           </Text>
           <Text
             style={{
               marginLeft: 10,
               color: AppColor.SECONDARY_COLOR,
+              lineHeight:23
             }}>{`Synopsis \n${VideoURI.description}`}</Text>
-          <Text style={{marginLeft: 10}}>{'Comments (6)'}</Text>
+          <Text style={{marginLeft: 10}}>{`Comments (${comments.length})`}</Text>
 
           <View>
             <View
@@ -154,7 +156,7 @@ const VideoPlayerScreen = ({
           </View>
         </View>
       </KeyboardAwareScrollView>
-      <View style={{flex: 0.5}}>
+      <View style={{flex: 0.45}}>
         {comments.length < 1 ? (
           <View>
             <Text>No comment yet</Text>
