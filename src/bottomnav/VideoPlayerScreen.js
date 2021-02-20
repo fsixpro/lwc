@@ -6,8 +6,6 @@ import {
   Keyboard,
   FlatList,
   TouchableOpacity,
-  Modal,
-  KeyboardAvoidingView,
   Alert,
 } from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
@@ -23,14 +21,13 @@ import {
 
 const VideoPlayerScreen = ({
   VideoURI,
-  video,
   onBack,
   comments,
   addVideoComment,
   getVideoComment,
   user,
 }) => {
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [, setKeyboardHeight] = useState(0);
   const [comment, setComment] = useState('');
   const [sendButton, setSendButton] = useState(false);
   const isInitialMount = useRef(true);
@@ -38,7 +35,7 @@ const VideoPlayerScreen = ({
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
     console.log('user', user);
-  }, []);
+  }, [user]);
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -82,9 +79,9 @@ const VideoPlayerScreen = ({
         <View
           style={{
             height: 300,
-             backgroundColor: 'coral',
+            // backgroundColor: 'coral',
           }}>
-          {/* <VideoPlayer
+          <VideoPlayer
             seekColor={AppColor.PRIMARY_COLOR}
             disableVolume={true}
             disableFullscreen={true}
@@ -93,25 +90,37 @@ const VideoPlayerScreen = ({
             source={{
               uri: VideoURI.video_file,
             }}
-          /> */}
+          />
         </View>
 
         <View>
-          <Text style={{marginLeft: 10,marginBottom:3,fontSize:16
-          }}>{VideoURI.topic}</Text>
-          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR,marginBottom:3}}>
+          <Text style={{marginLeft: 10, marginBottom: 3, fontSize: 16}}>
+            {VideoURI.topic}
+          </Text>
+          <Text
+            style={{
+              marginLeft: 10,
+              color: AppColor.SECONDARY_COLOR,
+              marginBottom: 3,
+            }}>
             {VideoURI.facilitator}
           </Text>
-          <Text style={{marginLeft: 10, color: AppColor.SECONDARY_COLOR,marginBottom:3}}>
+          <Text
+            style={{
+              marginLeft: 10,
+              color: AppColor.SECONDARY_COLOR,
+              marginBottom: 3,
+            }}>
             {'Category Remedial'}
           </Text>
           <Text
             style={{
               marginLeft: 10,
               color: AppColor.SECONDARY_COLOR,
-              lineHeight:23
+              lineHeight: 23,
             }}>{`Synopsis \n${VideoURI.description}`}</Text>
-          <Text style={{marginLeft: 10}}>{`Comments (${comments.length})`}</Text>
+          <Text
+            style={{marginLeft: 10}}>{`Comments (${comments.length})`}</Text>
 
           <View>
             <View
