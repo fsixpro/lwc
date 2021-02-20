@@ -14,6 +14,8 @@ target 'lwc' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
   target 'lwcTests' do
     inherit! :complete
     # Pods for testing

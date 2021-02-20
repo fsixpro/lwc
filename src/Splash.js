@@ -1,30 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import AppColor from './modules/AppColor';
+import {connect} from 'react-redux';
 
-const Splash = ({navigation}) => {
-  const [isLogged, setIsLogged] = useState(false);
+const Splash = ({navigation, authUser}) => {
   useEffect(() => {
-    const log = async () => {
-      try {
-        const value = await AsyncStorage.getItem('isLogged');
-        if (value !== null) {
-          setIsLogged(value);
-        }
-      } catch (e) {
-        // error reading value
+    setTimeout(() => {
+      if (authUser.isLogged) {
+        navigation.navigate('bottomnav');
+      } else {
+        navigation.navigate('login');
       }
-    };
-    log();
+    }, 2000);
   }, []);
-  setTimeout(() => {
-    console.log(isLogged);
-    if (isLogged) {
-      navigation.navigate('bottomnav');
-    } else {
-      navigation.navigate('login');
-    }
-  }, 2000);
+
   return (
     <View style={styles.container}>
       <Image
@@ -35,6 +25,7 @@ const Splash = ({navigation}) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: AppColor.PRIMARY_COLOR,
@@ -52,4 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-export default Splash;
+const mapStateToProps = (state) => ({
+  authUser: state.auth,
+});
+export default connect(mapStateToProps, {})(Splash);

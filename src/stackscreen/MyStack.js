@@ -14,9 +14,9 @@ const MyStack = ({user}) => {
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="splash" component={Splash} />
+        <Stack.Screen name="bottomnav" component={BottomNav} />
         <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="signup" component={Signup} />
-        <Stack.Screen name="bottomnav" component={BottomNav} />
       </Stack.Navigator>
     </NavigationContainer>
   );
