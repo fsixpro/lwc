@@ -15,7 +15,7 @@ const ToolsHome = ({getTools, tools}) => {
   return (
     <View style={{flex: 1}}>
       <Header title="Tools" />
-      <Text style={{margin: 15}}>Simple Tools Church Growth</Text>
+      <Text style={{margin: 15}}>Simple Tools For Church Growth</Text>
       <View style={{flex: 1}}>
         {tools !== null && (
           <FlatList
