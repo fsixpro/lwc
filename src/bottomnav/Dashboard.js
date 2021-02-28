@@ -13,9 +13,9 @@ import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import {connect} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import Header from '../Header';
-import { pdf } from '@react-pdf/renderer';
-import { saveAs } from 'file-saver';
-import { DocumentPdf, getProps } from './document-pdf';
+// import { pdf } from '@react-pdf/renderer';
+// import { saveAs } from 'file-saver';
+// import { DocumentPdf, getProps } from './document-pdf';
 import {getCourse} from '../statemanagement/actions/courseAction';
 import {getTools} from '../statemanagement/actions/toolsAction';
 
@@ -145,8 +145,8 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
           }}>
 
 {/* Intented to create the download link  */}
-     export const LazyDownloadPDFButton = () = (
-    <button
+     {/* export const LazyDownloadPDFButton = () = ( */}
+    {/* <button
     onClick={async () => {
       const props = await getProps();
       const doc = <DocumentPdf {...props} />;
@@ -156,7 +156,7 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
       saveAs(blob, 'document.pdf');
     }}
   >Download PDF</button>
-    );
+    ); */}
             
           Downloaded Tools
         </Text>
