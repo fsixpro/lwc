@@ -21,8 +21,9 @@ const TrainingTab = () => {
           },
           style: {backgroundColor: AppColor.PRIMARY_COLOR},
         }}>
-        <Tab.Screen name="VIDEOS" component={Videos} />
-        <Tab.Screen name="WEBINNARS" component={Webinars} />
+        <Tab.Screen name="WEBINARS" component={Webinars} />
+
+        <Tab.Screen name="CGI TV" component={Videos} />
         <Tab.Screen name="LIVE SESSION!" component={LiveSession} />
       </Tab.Navigator>
     </NavigationContainer>

@@ -7,9 +7,13 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Pressable,
+  Alert,
+  PermissionsAndroid,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
+import RNFetchBlob from 'rn-fetch-blob';
 import {connect} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import Header from '../Header';
@@ -38,7 +42,52 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
       };
     }, []),
   );
+  const handleDownload = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        originalDownload();
+      } else {
+        Alert.alert(
+          'Permission Denied!',
+          'You need to give storage permission to download the file',
+        );
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
 
+  const originalDownload = async () => {
+    try {
+      let dirs = RNFetchBlob.fs.dirs;
+      const res = await RNFetchBlob.config({
+        // add this option that makes response data to be stored as a file,
+        // this is much more performant.
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true, // setting it to true will use the device's native download manager and will be shown in the notification bar.
+          notification: true,
+          // title: `cgi.pdf`,
+          path: `${dirs.DownloadDir}/cgi.pdf`,
+        },
+      }).fetch(
+        'GET',
+        'https://lagosschoolsonline.com/assets/bootstrap/cgi.pdf',
+        {
+          //some headers ..
+        },
+      );
+      Alert.alert('Success', 'Download completed');
+      // the temp file path
+      console.log('The file saved to ', res.path());
+      console.log(dirs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={{flex: 1}}>
       <Header title="Dashboard" />
@@ -133,6 +182,9 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
         )}
       </View>
       <View style={{marginTop: 25, flex: 1}}>
+        <Pressable onPress={handleDownload}>
+          <Text style={styles.download}>Download pdf</Text>
+        </Pressable>
         <Text
           style={{
             color: '#9b9c9e',
@@ -211,6 +263,17 @@ const styles = StyleSheet.create({
     width: '60%',
     paddingLeft: 20,
     color: '#fff',
+  },
+  download: {
+    backgroundColor: AppColor.PRIMARY_COLOR,
+    color: '#fff',
+    width: 150,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    borderRadius: 40,
+    height: 40,
+    marginLeft: 25,
+    marginBottom: 30,
   },
 });
 const mapStateToProps = (state) => ({

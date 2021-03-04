@@ -84,7 +84,7 @@ const VideoPlayerScreen = ({
             height: 300,
              backgroundColor: 'coral',
           }}>
-          {/* <VideoPlayer
+          <VideoPlayer
             seekColor={AppColor.PRIMARY_COLOR}
             disableVolume={true}
             disableFullscreen={true}
@@ -93,7 +93,7 @@ const VideoPlayerScreen = ({
             source={{
               uri: VideoURI.video_file,
             }}
-          /> */}
+          />
         </View>
 
         <View>
