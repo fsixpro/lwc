@@ -9,7 +9,6 @@ const apiCall = new Apicall();
 export const getVideoComment = (param) => async (dispatch) => {
   try {
     const res = await apiCall.getVideoComment(param);
-    console.log('getVideoComment -> res', res);
 
     if (res.status == 200) {
       if (res.data.message == 'success') {
@@ -24,9 +23,7 @@ export const getVideoComment = (param) => async (dispatch) => {
         });
       }
     }
-  } catch (error) {
-    console.log('video action', error);
-  }
+  } catch (error) {}
 };
 export const addVideoComment = (param) => async (dispatch) => {
   try {
@@ -38,7 +35,5 @@ export const addVideoComment = (param) => async (dispatch) => {
         payload: res.data.data,
       });
     }
-  } catch (error) {
-    console.log('video action', error);
-  }
+  } catch (error) {}
 };

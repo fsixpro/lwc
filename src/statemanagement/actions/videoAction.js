@@ -12,7 +12,5 @@ export const getVideo = (param) => async (dispatch) => {
         payload: res.data.data,
       });
     }
-  } catch (error) {
-    console.log('video action', error);
-  }
+  } catch (error) {}
 };

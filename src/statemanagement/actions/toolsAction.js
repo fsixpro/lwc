@@ -10,7 +10,5 @@ export const getTools = () => async (dispatch) => {
         payload: res.data.data,
       });
     }
-  } catch (error) {
-    console.log('getTools action error', error);
-  }
+  } catch (error) {}
 };

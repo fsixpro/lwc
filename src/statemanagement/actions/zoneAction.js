@@ -10,7 +10,5 @@ export const getZone = () => async (dispatch) => {
         payload: res.data.data,
       });
     }
-  } catch (error) {
-    console.log('getCourse action error', error);
-  }
+  } catch (error) {}
 };

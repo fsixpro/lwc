@@ -17,18 +17,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 
 const Login = ({navigation, signin, user, logout}) => {
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        setFormInput({email: '', password: ''});
-      };
-    }, []),
-  );
-  useEffect(() => {
-    if (user.isLogged) {
-      navigation.navigate('bottomnav');
-    }
-  }, [user]);
   const [formInput, setFormInput] = useState({
     email: '',
     password: '',
@@ -48,23 +36,17 @@ const Login = ({navigation, signin, user, logout}) => {
         password,
       };
       signin(param);
-      // if (user.isLogged) {
-      //   navigation.navigate('bottomnav');
-      // }
     }
   };
-  // if (isLogged) {
-  //   console.log('islogged', isLogged);
-  //   navigation.navigate('bottomnav');
-  // }
+
   return (
     <View style={styles.container}>
-      <Spinner
+      {/* <Spinner
         visible={user.loading}
         size="large"
         animation="slide"
         //color="#f85c5f"
-      />
+      /> */}
       <Image
         style={styles.logo}
         source={require('../assets/cgi_logo_splash-screen.png')}

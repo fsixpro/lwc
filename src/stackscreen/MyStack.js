@@ -6,17 +6,25 @@ import Splash from '../Splash';
 import Login from '../Login';
 import Signup from '../Signup';
 import BottomNav from '../bottomnav/BottomNav';
+import {useSelector} from 'react-redux';
 
 const Stack = createStackNavigator();
 
-const MyStack = ({user}) => {
+const MyStack = () => {
+  const {isLogged} = useSelector((state) => state.auth);
+  console.log(isLogged);
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
-        <Stack.Screen name="splash" component={Splash} />
-        <Stack.Screen name="bottomnav" component={BottomNav} />
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="signup" component={Signup} />
+        {isLogged ? (
+          <Stack.Screen name="bottomnav" component={BottomNav} />
+        ) : (
+          <>
+            <Stack.Screen name="splash" component={Splash} />
+            <Stack.Screen name="login" component={Login} />
+            <Stack.Screen name="signup" component={Signup} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

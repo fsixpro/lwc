@@ -27,23 +27,6 @@ const Signup = ({
   register,
   user,
 }) => {
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        setFormInput({
-          fullName: '',
-          email: '',
-          password: '',
-          phone: '',
-        });
-      };
-    }, []),
-  );
-  useEffect(() => {
-    if (user.isLogged) {
-      navigation.navigate('bottomnav');
-    }
-  }, [user]);
   const isInitialMount = useRef(true);
   useFocusEffect(
     useCallback(() => {
@@ -78,8 +61,8 @@ const Signup = ({
       name: fullName,
       email: email,
       password: password,
-      church: church,
-      zchurch: zone,
+      church: 'BLWCHR030918CY6',
+      zchurch: 'BLWZN200818TV5',
       title: title,
       mobile: phone,
     };
@@ -95,7 +78,7 @@ const Signup = ({
     if (title == '') {
       return Alert.alert('error', 'please choose a title');
     }
-    //register(param);
+    register(param);
   };
   return (
     <View style={styles.container}>

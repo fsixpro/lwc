@@ -10,7 +10,5 @@ export const getChurch = (zoneid) => async (dispatch) => {
         payload: res.data.data,
       });
     }
-  } catch (error) {
-    console.log('getCourse action error', error);
-  }
+  } catch (error) {}
 };

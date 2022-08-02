@@ -1,37 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
   FlatList,
+  Image,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  Image,
+  View,
 } from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
-import {connect} from 'react-redux';
-import AppColor from '../modules/AppColor';
+import {useDispatch, useSelector} from 'react-redux';
 import Header from '../Header';
+import AppColor from '../modules/AppColor';
 import {getCourse} from '../statemanagement/actions/courseAction';
 import {getTools} from '../statemanagement/actions/toolsAction';
 
-const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
-  const [name, setName] = useState('');
+const DashBoard = () => {
+  const dispatch = useDispatch();
+  const {user} = useSelector((state) => state.auth);
+  const courses = useSelector((state) => state.courses);
+  const tools = useSelector((state) => state.tools.tools.data);
 
   useFocusEffect(
     React.useCallback(() => {
-      setName(user.user.name);
-      return () => {
-        setName('');
-      };
-    }, []),
-  );
-
-  useFocusEffect(
-    React.useCallback(() => {
-      getCourse();
-      getTools();
+      dispatch(getCourse());
+      dispatch(getTools());
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
@@ -50,7 +43,7 @@ const DashBoard = ({getCourse, user, courses, getTools, tools}) => {
           marginBottom: 10,
           paddingLeft: 20,
         }}>
-        Hello, {name}
+        Hello, {user?.name}
       </Text>
       <Text style={{paddingLeft: 20}}>COMPLETED COURSES</Text>
       <View>
@@ -213,9 +206,5 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
-const mapStateToProps = (state) => ({
-  user: state.auth,
-  courses: state.courses,
-  tools: state.tools.tools.data,
-});
-export default connect(mapStateToProps, {getCourse, getTools})(DashBoard);
+
+export default DashBoard;

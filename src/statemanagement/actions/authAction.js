@@ -16,6 +16,7 @@ export const signin = (param) => async (dispatch) => {
   try {
     dispatch(setLoading());
     const res = await apiCall.signin(param);
+    console.log('res', res);
     if (res.status == 200) {
       if (res.data.status == true) {
         await AsyncStorage.setItem('token', res.data.access_token);
@@ -31,17 +32,15 @@ export const signin = (param) => async (dispatch) => {
         }
       }
     }
-  } catch (error) {
-    console.log('auth actin error', error);
-  }
+  } catch (error) {}
 };
 
 export const register = (param) => async (dispatch) => {
   try {
     dispatch(setLoading());
     const res = await apiCall.register(param);
-    console.log('register action', res);
-    if (res.status == 200) {
+
+    if (res.status == 201) {
       if (res.data.status == true) {
         await AsyncStorage.setItem('token', res.data.access_token);
         dispatch({type: REGISTER_SUCCESS, payload: res.data.access_token});
@@ -55,14 +54,14 @@ export const register = (param) => async (dispatch) => {
     } else {
       dispatch({type: REGISTER_FAIL});
     }
-  } catch (error) {
-    console.log('auth actin error', error);
-  }
+  } catch (error) {}
 };
 
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await apiCall.loadUser();
+    console.log('loadUser', res);
+
     if (res.status == 200) {
       dispatch({
         type: LOAD_USER,
@@ -73,9 +72,7 @@ export const loadUser = () => async (dispatch) => {
         type: AUTH_ERROR,
       });
     }
-  } catch (error) {
-    console.log('loadUser actin error', error);
-  }
+  } catch (error) {}
 };
 
 export const setLoading = () => (dispatch) => {

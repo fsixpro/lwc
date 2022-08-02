@@ -1,18 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import AppColor from '../modules/AppColor';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icons from 'react-native-vector-icons/dist/FontAwesome5';
 import Header from '../Header';
 import {logout} from '../statemanagement/actions/authAction';
 
-const Profile = ({navigation, user, logout}) => {
+const Profile = ({navigation, user}) => {
+  const dispatch = useDispatch();
   const logoutHandler = async () => {
     try {
       await AsyncStorage.clear();
-      navigation.pop();
+      dispatch(logout());
     } catch (e) {
       // clear error
     }
@@ -35,7 +36,7 @@ const Profile = ({navigation, user, logout}) => {
           source={require('../../assets/cgi_logo_splash-screen.png')}
         />
         <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 25}}>{user.user.name}</Text>
+          <Text style={{fontSize: 25}}>{user?.user?.name}</Text>
           <TouchableOpacity onPress={() => {}}>
             <Icons
               name="pencil-alt"
@@ -46,7 +47,7 @@ const Profile = ({navigation, user, logout}) => {
           </TouchableOpacity>
         </View>
         <Text style={{color: AppColor.SECONDARY_COLOR, fontSize: 11}}>
-          {`${user.user.email} | `}
+          {`${user?.user?.email} | `}
           <Text style={{color: AppColor.PRIMARY_COLOR, fontWeight: 'bold'}}>
             Cell Ministry Leader
           </Text>

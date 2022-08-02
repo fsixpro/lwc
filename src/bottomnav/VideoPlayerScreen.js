@@ -34,7 +34,6 @@ const VideoPlayerScreen = ({
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-    console.log('user', user);
   }, [user]);
   useEffect(() => {
     if (isInitialMount.current) {
